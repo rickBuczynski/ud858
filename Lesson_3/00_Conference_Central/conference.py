@@ -210,6 +210,19 @@ class ConferenceApi(remote.Service):
         """Query for conferences."""
         conferences = Conference.query()
         return ConferenceForms(items=[self._copyConferenceToForm(conf, "") for conf in conferences])
+        
+    @endpoints.method(message_types.VoidMessage, ConferenceForms, path='getConferencesCreated', http_method='POST', name='getConferencesCreated')
+    def getConferencesCreated(self, request):
+        """Return conferences created by user."""
+        user = endpoints.get_current_user()
+        if not user:
+            raise endpoints.UnauthorizedException('Authorization required')
+        
+        p_key = ndb.Key(Profile, getUserId(user))
+        conferences = Conference.query(ancestor=p_key)
+        prof = p_key.get()
+        displayName = getattr(prof, 'displayName')
+        return ConferenceForms(items=[self._copyConferenceToForm(conf, displayName) for conf in conferences])
 
 # registers API
 api = endpoints.api_server([ConferenceApi]) 
