@@ -83,3 +83,15 @@ class ConferenceForm(messages.Message):
     endDate         = messages.StringField(10)
     websafeKey      = messages.StringField(11)
     organizerDisplayName = messages.StringField(12)
+
+class ConferenceForms(messages.Message):
+    items = messages.MessageField(ConferenceForm, 1, repeated=True)
+
+class ConferenceQueryForm(messages.Message):
+    field = messages.StringField(1)
+    operator = messages.StringField(2)
+    value = messages.StringField(3)
+
+class ConferenceQueryForms(messages.Message):
+    filters = messages.MessageField(ConferenceQueryForm, 1, repeated=True)
+    
