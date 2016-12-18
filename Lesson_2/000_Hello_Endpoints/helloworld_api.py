@@ -26,6 +26,9 @@ class Hello(messages.Message):
     """String that stores a message."""
     greeting = messages.StringField(1)
 
+class GreetByPeriodRequest(messages.Message):
+    name = messages.StringField(1)
+    period = messages.StringField(2)
 
 @endpoints.api(name='helloworldendpoints', version='v1')
 class HelloWorldApi(remote.Service):
@@ -42,5 +45,10 @@ class HelloWorldApi(remote.Service):
       greet = "Hello {}".format(request.name)
       return Hello(greeting=greet)
 
+    @endpoints.method(GreetByPeriodRequest, Hello,
+      path = "greetByPeriod", http_method='GET', name = "greetByPeriod")
+    def greet_by_period(self, request):
+      greet = "Good {}, {}".format(request.period, request.name)
+      return Hello(greeting=greet)
 
 APPLICATION = endpoints.api_server([HelloWorldApi])
