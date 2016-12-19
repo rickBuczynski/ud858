@@ -353,8 +353,8 @@ class ConferenceApi(remote.Service):
         """Register user for selected conference."""
         return self._conferenceRegistration(request)
 
-    @endpoints.method(CONF_GET_REQUEST, BooleanMessage, path='conference/{websafeConferenceKey}/unregisterForConference', http_method='POST', name='unregisterForConference')
-    def unregisterForConference(self, request):
+    @endpoints.method(CONF_GET_REQUEST, BooleanMessage, path='conference/{websafeConferenceKey}/unregisterFromConference', http_method='POST', name='unregisterFromConference')
+    def unregisterFromConference(self, request):
         """Unregister user for selected conference."""
         return self._conferenceRegistration(request, False)          
 
